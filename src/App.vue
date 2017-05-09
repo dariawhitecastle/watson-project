@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <img src="./assets/IBM_Bluemix_logo.svg.png">
-    <router-view></router-view>
+    <transition name="fade"><router-view></router-view></transition>
   </div>
 </template>
 
@@ -24,5 +24,15 @@ img {
   height: 300px;
   width: auto;
   margin-bottom: 40px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition-property: opacity;
+  transition-duration: .25s;
+}
+.fade-enter-active {
+  transition-delay: .5s;
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0
 }
 </style>

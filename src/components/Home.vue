@@ -1,9 +1,9 @@
 <template>
   <div class="home">
     <ul>
-      <li>Home</li>
-      <li>See poem</li>
-      <li>Start over</li>
+      <router-link to="/" tag="li"><a>Home</a></router-link>
+      <router-link to="/poem" tag="li"><a>See poem</a></router-link>
+      <router-link to="/search" tag="li"><a>Start over</a></router-link>
     </ul>
     <h2>{{ msg }}</h2>
     <div class="mdl-grid">
@@ -48,7 +48,12 @@ li {
   margin: 0 10px;
 }
 
+li.router-link-active {
+  color: blue;
+}
+
 a {
   color: #42b983;
+  text-decoration: none;
 }
 </style>

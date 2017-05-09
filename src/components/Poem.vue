@@ -1,9 +1,10 @@
 <template>
   <div class="poem">
     <ul>
-      <li>Home</li>
-      <li>See poem</li>
-      <li>Start over</li>
+      <router-link to="/" tag="li"><a>Home</a></router-link>
+      <router-link to="/poem" tag="li"><a>See poem</a></router-link></li>
+      <router-link to="/search" tag="li"><a>Start over</a></router-link></li>
+    </ul>
     </ul>
     <div class="mdl-grid">
       <div class="mdl-card mdl-shadow--4dp mdl-cell--5-col mdl-cell--6-col-tablet mdl-cell--12-col-phone">
