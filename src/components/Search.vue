@@ -18,7 +18,7 @@
         <div class="mdl-card__title">
            <h2 class="mdl-card__title-text">{{ poem.title }}<br>{{ poem.author }}</h2>
         </div>
-        <div class="mdl-card__supporting-text"> {{ poem.lines }} </div>
+        <div class="mdl-card__supporting-text" v-for="line in poem.lines"> {{ line }} </div>
       </div>
     </div>
   </div>
@@ -38,11 +38,12 @@ export default {
     searchPoem: function () {
       axios.get(`https://galvanize-cors-proxy.herokuapp.com/poetrydb.org/author/${this.searchValue}`)
       .then(response => {
-        // this.poems = response.data
         let poems = response.data
         poems.forEach(poem => {
           let lines = poem.lines
-          return lines.forEach(line => line.replace(/"/g, ''))
+          lines.forEach(line => {
+            line = line.replace(/"/g, '')
+          })
         })
         this.poems = poems
       })
