@@ -1,38 +1,39 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
+  <div class="landing">
     <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <br>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
+      <li>Home</li>
+      <li>See poem</li>
+      <li>Start over</li>
     </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+    <h2>{{ msg }}</h2>
+    <div class="mdl-grid">
+      <div class="mdl-cell--8-col mdl-cell--12-col-phone mdl-cell--2-offset-desktop">
+        <p>The app allows you to search for a poem by title or author name, then select
+          a poem for translation and mood analysis. We used Poetrydb.org and Watson IBM Language Translator and Tone Analyser
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'hello',
+  name: 'landing',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Poetry translator'
     }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
+
+div > ul, p{
+  font-size: 20px;
+}
+
 h1, h2 {
   font-weight: normal;
 }
