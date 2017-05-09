@@ -4,17 +4,14 @@
       <li>Home</li>
       <li>See poem</li>
       <li>Start over</li>
-      <!-- <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <br>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
     </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li> -->
-    </ul>
+    <div class="mdl-grid">
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col mdl-cell--6-col-tablet mdl-cell--12-col-phone mdl-cell--4-offset-desktop mdl-cell--1-offset-tablet">
+          <input class="mdl-textfield__input" type="text" id="search-poem" pattern="[A-Z,a-z, ]*">
+          <label class="mdl-textfield__label" for="search-poem">Search by title or author</label>
+          <span class="mdl-textfield__error">Letters and spaces only</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -31,8 +28,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
+
+.mdl-grid {
+  text-align: center;
 }
 
 ul {
