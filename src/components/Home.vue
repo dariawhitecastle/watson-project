@@ -1,5 +1,5 @@
 <template>
-  <div class="landing">
+  <div class="home">
     <ul>
       <li>Home</li>
       <li>See poem</li>
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'landing',
+  name: 'home',
   data () {
     return {
       msg: 'Welcome to Poetry translator'
