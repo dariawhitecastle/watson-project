@@ -31,6 +31,15 @@
 
 <script>
 import axios from 'axios'
+// import LanguageTranslatorV2 from 'watson-developer-cloud/language-translator/v2'
+// import fs from 'fs'
+
+// const languageTranslator = new LanguageTranslatorV2({
+//   username: '039898a3-164a-470f-9cea-623dd097d272',
+//   password: 'D6FfEtczTnAs',
+//   url: 'https://gateway.watsonplatform.net/language-translator/api/'
+// })
+import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
 export default {
   name: 'search',
   data () {
@@ -57,10 +66,20 @@ export default {
         })
         this.poems = poems.length > 5 ? poems.slice(5) : poems
       })
-    },
-    translatePoem: function () {
-      console.log('Hello')
     }
+    // translatePoem: function () {
+    //   languageTranslator.translate({
+    //     text: 'hello',
+    //     source: 'en',
+    //     target: 'es'
+    //   }, function (err, translation) {
+    //     if (err) {
+    //       console.log(err)
+    //     } else {
+    //       console.log(translation)
+    //     }
+    //   })
+    // }
   }
 }
 </script>

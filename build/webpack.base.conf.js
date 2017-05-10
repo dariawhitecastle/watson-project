@@ -8,6 +8,7 @@ function resolve (dir) {
 }
 
 module.exports = {
+  // target: 'node',
   entry: {
     app: './src/main.js'
   },
