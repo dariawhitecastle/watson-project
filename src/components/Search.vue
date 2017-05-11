@@ -39,7 +39,7 @@ import axios from 'axios'
 //   password: 'D6FfEtczTnAs',
 //   url: 'https://gateway.watsonplatform.net/language-translator/api/'
 // })
-import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
+// import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
 export default {
   name: 'search',
   data () {
