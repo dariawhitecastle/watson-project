@@ -31,19 +31,33 @@
 
 <script>
 import axios from 'axios'
-// import LanguageTranslatorV2 from 'watson-developer-cloud/language-translator/v2'
-// import fs from 'fs'
-
-// const languageTranslator = new LanguageTranslatorV2({
-
-//   url: 'https://gateway.watsonplatform.net/language-translator/api/'
-// })
 import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
-const toneAnalyzer = new ToneAnalyzerV3({
-  username: 'username',
-  password: 'password',
-  version_date: '2016-05-19'
-})
+
+function getToken () {
+  return axios.get('/api/token/tone_analyzer')
+  .then(response => {
+    return response.data
+  })
+}
+
+function analyze (token) {
+  const toneAnalyzer = new ToneAnalyzerV3({
+    token: token,
+    version_date: '2016-05-19'
+  })
+  toneAnalyzer.tone(
+    {
+      text: 'Greetings from Watson Developer Cloud!'
+    },
+    function (err, result) {
+      if (err) {
+        // output.innerHTML = err;
+        return console.log(err)
+      }
+      console.log(JSON.stringify(result, null, 2))
+    }
+  )
+}
 
 export default {
   name: 'search',
@@ -73,6 +87,7 @@ export default {
       })
     },
     translatePoem: function () {
+      getToken().then(analyze)
       // languageTranslator.translate({
       //   text: 'hello',
       //   source: 'en',
@@ -84,14 +99,6 @@ export default {
       //     console.log(translation)
       //   }
       // })
-      toneAnalyzer.tone({ text: 'Greetings from Watson Developer Cloud!' },
-        function (err, tone) {
-          if (err) {
-            console.log(err)
-          } else {
-            console.log(JSON.stringify(tone, null, 2))
-          }
-        })
     }
   }
 }

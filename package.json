@@ -21,7 +21,8 @@
     "shebang-loader": "^0.0.1",
     "tls": "^0.0.1",
     "vue": "^2.2.6",
-    "vue-router": "^2.3.1"
+    "vue-router": "^2.3.1",
+    "watson-developer-cloud": "^2.31.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
