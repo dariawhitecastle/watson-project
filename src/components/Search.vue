@@ -35,11 +35,16 @@ import axios from 'axios'
 // import fs from 'fs'
 
 // const languageTranslator = new LanguageTranslatorV2({
-//   username: '039898a3-164a-470f-9cea-623dd097d272',
-//   password: 'D6FfEtczTnAs',
+
 //   url: 'https://gateway.watsonplatform.net/language-translator/api/'
 // })
-// import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
+import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
+const toneAnalyzer = new ToneAnalyzerV3({
+  username: 'username',
+  password: 'password',
+  version_date: '2016-05-19'
+})
+
 export default {
   name: 'search',
   data () {
@@ -66,20 +71,28 @@ export default {
         })
         this.poems = poems.length > 5 ? poems.slice(5) : poems
       })
+    },
+    translatePoem: function () {
+      // languageTranslator.translate({
+      //   text: 'hello',
+      //   source: 'en',
+      //   target: 'es'
+      // }, function (err, translation) {
+      //   if (err) {
+      //     console.log(err)
+      //   } else {
+      //     console.log(translation)
+      //   }
+      // })
+      toneAnalyzer.tone({ text: 'Greetings from Watson Developer Cloud!' },
+        function (err, tone) {
+          if (err) {
+            console.log(err)
+          } else {
+            console.log(JSON.stringify(tone, null, 2))
+          }
+        })
     }
-    // translatePoem: function () {
-    //   languageTranslator.translate({
-    //     text: 'hello',
-    //     source: 'en',
-    //     target: 'es'
-    //   }, function (err, translation) {
-    //     if (err) {
-    //       console.log(err)
-    //     } else {
-    //       console.log(translation)
-    //     }
-    //   })
-    // }
   }
 }
 </script>
