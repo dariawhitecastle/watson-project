@@ -8,9 +8,13 @@ function resolve (dir) {
 }
 
 module.exports = {
-  // target: 'node',
   entry: {
     app: './src/main.js'
+  },
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
   },
   output: {
     path: config.build.assetsRoot,
