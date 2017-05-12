@@ -5,16 +5,13 @@
       <router-link to="/poem" tag="li"><a>See poem</a></router-link></li>
       <router-link to="/search" tag="li"><a>Start over</a></router-link></li>
     </ul>
-    </ul>
     <div class="mdl-grid">
       <div class="mdl-card mdl-shadow--4dp mdl-cell--5-col mdl-cell--6-col-tablet mdl-cell--12-col-phone">
         <div class="mdl-card__title">
-           <h2 class="mdl-card__title-text">Poem Title<br>Poem Author</h2>
+           <h2 class="mdl-card__title-text">{{ analyzedPoem.title }}<br>{{ analyzedPoem.author }}</h2>
         </div>
         <div class="mdl-card__supporting-text">
-        The Sky Tower is an observation and telecommunications tower located in Auckland,
-        New Zealand. It is 328 metres (1,076 ft) tall, making it the tallest man-made structure
-        in the Southern Hemisphere.
+        {{ analyzedPoem.lines }}
         </div>
       </div>
       <div class="mdl-card mdl-shadow--4dp mdl-cell--5-col mdl-cell--6-col-tablet mdl-cell--12-col-phone">
@@ -32,14 +29,24 @@
 </template>
 
 <script>
-export default {
-  name: 'home',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+  import {EventBus} from './event-bus.js'
+  let analyzedPoem1 = {}
+  EventBus.$on('poemRequested', function (poem) {
+    let lines = poem.lines
+    lines.forEach(line => {
+      line = line.replace(/"/g, '')
+    })  
+    analyzedPoem1 = poem
+  })
+
+  export default {
+    name: 'poem',
+    data () {
+      return {
+        analyzedPoem: analyzedPoem1
+      }
     }
   }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -5,7 +5,7 @@
       <router-link to="/poem" tag="li"><a>See poem</a></router-link></li>
       <router-link to="/search" tag="li"><a>Start over</a></router-link></li>
     </ul>
-    <div v-if="show"> {{ message }}
+    <div v-show="showMessage"><p>{{ message }}</p>
     </div>
     <div class="mdl-grid">
       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col mdl-cell--6-col-tablet mdl-cell--12-col-phone mdl-cell--4-offset-desktop mdl-cell--1-offset-tablet">
@@ -16,14 +16,14 @@
       <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" v-on:click="searchPoem()">
         Search
       </button>
-      <div v-for="poem in poems" class="mdl-card mdl-shadow--4dp mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--12-col-phone mdl-cell--3-offset-desktop mdl-cell--1-offset-tablet">
+      <div v-for="(poem, index) in poems" class="mdl-card mdl-shadow--4dp mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--12-col-phone mdl-cell--3-offset-desktop mdl-cell--1-offset-tablet">
         <div class="mdl-card__title">
            <h2 class="mdl-card__title-text">{{ poem.title }} </br>by: {{ poem.author }}</h2>
         </div>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" v-on:click="translatePoem()">
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" v-on:click="analyzePoem(poem)">
           Translate
         </button>
-        <div class="mdl-card__supporting-text"><p v-for="line in poem.lines"> {{ line }} </p></div>
+        <div class="mdl-card__supporting-text" v-bind:id="index"><p v-for="line in poem.lines"> {{ line }} </p></div>
       </div>
     </div>
   </div>
@@ -32,14 +32,19 @@
 <script>
 import axios from 'axios'
 import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
+import {EventBus} from './event-bus.js'
+let poemRequest = ''
+let toneResult = {}
 
+// function used in the export method on line 94. required to get auth token from Watson API
 function getToken () {
   return axios.get('/api/token/tone_analyzer')
   .then(response => {
     return response.data
   })
 }
-
+// function used in the export method on line 94 after getToken is called.
+// uses poemRequest to process tone analysis. Assigns result to tone
 function analyze (token) {
   const toneAnalyzer = new ToneAnalyzerV3({
     token: token,
@@ -47,14 +52,15 @@ function analyze (token) {
   })
   toneAnalyzer.tone(
     {
-      text: 'Greetings from Watson Developer Cloud!'
+      text: poemRequest
     },
     function (err, result) {
       if (err) {
         // output.innerHTML = err;
         return console.log(err)
       }
-      console.log(JSON.stringify(result, null, 2))
+      toneResult = JSON.stringify(result, null, 2)
+      console.log(toneResult)
     }
   )
 }
@@ -64,8 +70,9 @@ export default {
   data () {
     return {
       searchValue: '',
-      show: false,
+      showMessage: false,
       poems: [],
+      tone: {},
       message: 'Sorry, we do not have your poem at this time'
     }
   },
@@ -73,9 +80,9 @@ export default {
     searchPoem: function () {
       axios.get(`https://galvanize-cors-proxy.herokuapp.com/poetrydb.org/author/${this.searchValue}`)
       .then(response => {
-        // if (response.length === 0) {
-        //   this.show = true
-        // }
+        if (response.data.status === 404) {
+          this.showMessage = true
+        }
         let poems = response.data
         poems.forEach(poem => {
           let lines = poem.lines
@@ -86,22 +93,18 @@ export default {
         this.poems = poems.length > 5 ? poems.slice(5) : poems
       })
     },
-    translatePoem: function () {
+    analyzePoem: function (poem) {
+      let arr = poem.lines
+      poemRequest = arr.slice(0, arr.length-1).join(' ')
+      this.poem = poem
+      console.log(this.poem, poemRequest);
       getToken().then(analyze)
-      // languageTranslator.translate({
-      //   text: 'hello',
-      //   source: 'en',
-      //   target: 'es'
-      // }, function (err, translation) {
-      //   if (err) {
-      //     console.log(err)
-      //   } else {
-      //     console.log(translation)
-      //   }
-      // })
+      this.$router.replace({ name: 'Poem' })
+      EventBus.$emit('poemRequested', this.poem)
     }
   }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

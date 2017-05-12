@@ -9,8 +9,15 @@ import Axios from 'axios'
 
 Vue.config.productionTip = false
 Vue.use(Axios)
-// Vue.use(LanguageTranslatorV2)
-// Vue.use(fs)
+
+
+//   Object.defineProperties(Vue.prototype, {
+//   $bus: {
+//      get() {
+//         return EventBus
+//     },
+//   },
+// })
 
 /* eslint-disable no-new */
 new Vue({
