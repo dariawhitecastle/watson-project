@@ -2,8 +2,8 @@
   <div class="search">
     <ul>
       <router-link to="/" tag="li"><a>Home</a></router-link>
+      <router-link to="/search" tag="li"><a>Search for poem</a></router-link></li>
       <router-link to="/poem" tag="li"><a>See poem</a></router-link></li>
-      <router-link to="/search" tag="li"><a>Start over</a></router-link></li>
     </ul>
     <div v-show="showMessage"><p>{{ message }}</p>
     </div>
@@ -31,39 +31,39 @@
 
 <script>
 import axios from 'axios'
-import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
+// import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
 import {EventBus} from './event-bus.js'
-let poemRequest = ''
-let toneResult = {}
+// let poemRequest = ''
+// let toneResult = {}
 
-// function used in the export method on line 94. required to get auth token from Watson API
-function getToken () {
-  return axios.get('/api/token/tone_analyzer')
-  .then(response => {
-    return response.data
-  })
-}
-// function used in the export method on line 94 after getToken is called.
-// uses poemRequest to process tone analysis. Assigns result to tone
-function analyze (token) {
-  const toneAnalyzer = new ToneAnalyzerV3({
-    token: token,
-    version_date: '2016-05-19'
-  })
-  toneAnalyzer.tone(
-    {
-      text: poemRequest
-    },
-    function (err, result) {
-      if (err) {
-        // output.innerHTML = err;
-        return console.log(err)
-      }
-      toneResult = JSON.stringify(result, null, 2)
-      console.log(toneResult)
-    }
-  )
-}
+// // function used in method on line 94. required to get auth token from Watson API
+// function getToken () {
+//   return axios.get('/api/token/tone_analyzer')
+//   .then(response => {
+//     return response.data
+//   })
+// }
+// // function used in method on line 94 after getToken is called.
+// // uses poemRequest to process tone analysis. Assigns result to tone
+// function analyze (token) {
+//   const toneAnalyzer = new ToneAnalyzerV3({
+//     token: token,
+//     version_date: '2016-05-19'
+//   })
+//   toneAnalyzer.tone(
+//     {
+//       text: poemRequest
+//     },
+//     function (err, result) {
+//       if (err) {
+//         // output.innerHTML = err;
+//         return console.log(err)
+//       }
+//       toneResult = JSON.stringify(result, null, 2)
+//       console.log(toneResult)
+//     }
+//   )
+// }
 
 export default {
   name: 'search',
@@ -94,11 +94,10 @@ export default {
       })
     },
     analyzePoem: function (poem) {
-      let arr = poem.lines
-      poemRequest = arr.slice(0, arr.length-1).join(' ')
+      // let arr = poem.lines
+      // poemRequest = arr.slice(0, arr.length-1).join(' ')
       this.poem = poem
-      console.log(this.poem, poemRequest);
-      getToken().then(analyze)
+      // getToken().then(analyze)
       this.$router.replace({ name: 'Poem' })
       EventBus.$emit('poemRequested', this.poem)
     }

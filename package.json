@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
+    "chartjs": "^0.3.24",
     "dotenv": "^4.0.0",
     "fs": "^0.0.1-security",
     "net": "^1.0.2",

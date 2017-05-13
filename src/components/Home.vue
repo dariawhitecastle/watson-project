@@ -2,8 +2,8 @@
   <div class="home">
     <ul>
       <router-link to="/" tag="li"><a>Home</a></router-link>
+      <router-link to="/search" tag="li"><a>Search for poem</a></router-link>
       <router-link to="/poem" tag="li"><a>See poem</a></router-link>
-      <router-link to="/search" tag="li"><a>Start over</a></router-link>
     </ul>
     <h2>{{ msg }}</h2>
     <div class="mdl-grid">
