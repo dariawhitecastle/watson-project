@@ -19,7 +19,9 @@
            <h2 class="mdl-card__title-text">Poem Title<br>Poem Author</h2>
         </div>
         <div class="mdl-card__supporting-text">
+          {{ this.chart }}
           <canvas id="toneAnalysisChart" width="400" height="400">
+              {{ this.chart }}
           </canvas>
         </div>
       </div>
@@ -28,6 +30,7 @@
 </template>
 
 <script>
+
   import {EventBus} from './event-bus.js'
   import axios from 'axios'
   import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
@@ -41,18 +44,29 @@
     })
     analyzedPoem1 = poem
     getToken().then(analyze)
+    // createChart(chartData)
   })
-
-  // function used in method on line 94. required to get auth token from Watson API
+  // required to get auth token from Watson API
   function getToken () {
     return axios.get('/api/token/tone_analyzer')
     .then(response => {
       return response.data
     })
   }
-  // function used in method on line 94 after getToken is called.
-  // uses poemRequest to process tone analysis. Assigns result to tone
+  // uses analyzedPoem1 to process tone analysis. Assigns result to tone
   let toneResult = {}
+  let chartData = {
+    labels: [],
+    data: []
+  }
+
+  function createDataObject (data) {
+    return data.forEach(obj => {
+      chartData.labels.push(obj.tone_name)
+      chartData.data.push(Math.round(obj.score * 100))
+    })
+  }
+
   function analyze (token) {
     const toneAnalyzer = new ToneAnalyzerV3({
       token: token,
@@ -68,57 +82,56 @@
           // output.innerHTML = err;
           return console.log(err)
         }
-        let data = tone
-        toneResult = data.document_tone.tone_categories[0].tones
-        console.log(toneResult)
+        toneResult = tone.document_tone.tone_categories[0].tones
+        createDataObject(toneResult)
       }
     )
   }
   // create Chart
-  let ctx = 'toneAnalysisChart'
-  let toneAnalysisChart = new Chart(ctx, {
-    type: 'polarArea',
-    data: {
-      labels: ['Anger', 'Disgust', 'Fear', 'Joy', 'Sadness'],
-      datasets: [{
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255,99,132,1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
-        ],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
+  function createChart (chartData) {
+    console.log(chartData)
+    let ctx = document.getElementById('toneAnalysisChart')
+    let toneAnalysisChart = new Chart(ctx, {
+      type: 'polarArea',
+      data: {
+        labels: chartData.labels,
+        datasets: [{
+          data: chartData.data,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)'
+          ],
+          borderWidth: 1
         }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
       }
-    }
-})
+    })
+  }
 
   export default {
     name: 'poem',
     data () {
       return {
         analyzedPoem: analyzedPoem1,
-        tone: toneResult,
-        chart: toneAnalysisChart
+        chart: createChart(chartData)
       }
     }
   }

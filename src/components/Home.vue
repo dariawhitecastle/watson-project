@@ -9,7 +9,7 @@
     <div class="mdl-grid">
       <div class="mdl-cell--8-col mdl-cell--12-col-phone mdl-cell--2-offset-desktop">
         <p>The app allows you to search for a poem by title or author name, then select
-          a poem for translation and mood analysis. We used Poetrydb.org and Watson IBM Language Translator and Tone Analyser
+          a poem for tone and emotion analysis. We used Poetrydb.org and Watson IBM Tone Analyser
         </p>
       </div>
     </div>
@@ -21,7 +21,7 @@ export default {
   name: 'home',
   data () {
     return {
-      msg: 'Welcome to Poetry translator'
+      msg: 'Welcome to Poetry Tone Analyzer'
     }
   }
 }

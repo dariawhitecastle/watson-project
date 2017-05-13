@@ -20,8 +20,8 @@
         <div class="mdl-card__title">
            <h2 class="mdl-card__title-text">{{ poem.title }} </br>by: {{ poem.author }}</h2>
         </div>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" v-on:click="analyzePoem(poem)">
-          Translate
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" v-on:click="requestPoem(poem)">
+          Analyze
         </button>
         <div class="mdl-card__supporting-text" v-bind:id="index"><p v-for="line in poem.lines"> {{ line }} </p></div>
       </div>
@@ -31,40 +31,7 @@
 
 <script>
 import axios from 'axios'
-// import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
 import {EventBus} from './event-bus.js'
-// let poemRequest = ''
-// let toneResult = {}
-
-// // function used in method on line 94. required to get auth token from Watson API
-// function getToken () {
-//   return axios.get('/api/token/tone_analyzer')
-//   .then(response => {
-//     return response.data
-//   })
-// }
-// // function used in method on line 94 after getToken is called.
-// // uses poemRequest to process tone analysis. Assigns result to tone
-// function analyze (token) {
-//   const toneAnalyzer = new ToneAnalyzerV3({
-//     token: token,
-//     version_date: '2016-05-19'
-//   })
-//   toneAnalyzer.tone(
-//     {
-//       text: poemRequest
-//     },
-//     function (err, result) {
-//       if (err) {
-//         // output.innerHTML = err;
-//         return console.log(err)
-//       }
-//       toneResult = JSON.stringify(result, null, 2)
-//       console.log(toneResult)
-//     }
-//   )
-// }
-
 export default {
   name: 'search',
   data () {
@@ -72,7 +39,6 @@ export default {
       searchValue: '',
       showMessage: false,
       poems: [],
-      tone: {},
       message: 'Sorry, we do not have your poem at this time'
     }
   },
@@ -93,11 +59,8 @@ export default {
         this.poems = poems.length > 5 ? poems.slice(5) : poems
       })
     },
-    analyzePoem: function (poem) {
-      // let arr = poem.lines
-      // poemRequest = arr.slice(0, arr.length-1).join(' ')
+    requestPoem: function (poem) {
       this.poem = poem
-      // getToken().then(analyze)
       this.$router.replace({ name: 'Poem' })
       EventBus.$emit('poemRequested', this.poem)
     }
