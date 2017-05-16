@@ -8,6 +8,7 @@ function resolve (dir) {
 }
 
 module.exports = {
+  devtool: 'source-map',
   entry: {
     app: './src/main.js'
   },
