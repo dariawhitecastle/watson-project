@@ -62,8 +62,12 @@ export default {
     requestPoem: function (poem) {
       this.poem = poem
       this.$router.replace({ name: 'Poem' })
-      EventBus.$emit('poemRequested', this.poem)
     }
+  },
+  beforeRouteLeave (to, from, next) {
+    console.log(this.poem)
+    EventBus.$emit('poemRequested', this.poem)
+    next()
   },
   mounted() {
     componentHandler.upgradeElement(this.$refs.inputField)
