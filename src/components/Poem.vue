@@ -19,7 +19,6 @@
            <h2 class="mdl-card__title-text">Poem Title<br>Poem Author</h2>
         </div>
         <div class="mdl-card__supporting-text">
-          {{ chartData }}
           <polar-chart :chart-data="chartData"></polar-chart>
         </div>
       </div>
@@ -29,21 +28,12 @@
 
 <script>
 
-  import {EventBus} from './event-bus.js'
+  import {getPoem} from './PoemManager.js'
   import axios from 'axios'
   import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
   let analyzedPoem1 = {}
   import PolarChart from './PolarChart.js'
 
-  // EventBus.$on('poemRequested', function (poem) {
-  //   let lines = poem.lines
-  //   lines.forEach(line => {
-  //     line = line.replace(/"/g, '')
-  //   })
-  //   Object.assign(analyzedPoem1, poem)
-  //   getToken().then(analyze)
-  //
-  // })
   // required to get auth token from Watson API
   function getToken () {
     return axios.get('/api/token/tone_analyzer')
@@ -63,7 +53,6 @@
       chartData.labels.push(obj.tone_name)
       chartData.data.push(Math.round(obj.score * 100))
     })
-    console.log(chartData)
     return chartData
   }
 
@@ -95,40 +84,38 @@
     components: {
       PolarChart
     },
-    created () {
-      EventBus.$on('poemRequested', (poem) => {
-        console.log(poem)
-        let lines = poem.lines
-        lines.forEach(line => {
-          line = line.replace(/"/g, '')
-        })
-        this.analyzedPoem = poem
-        // Object.assign(analyzedPoem1, poem)
-        getToken()
-        .then(token => analyze(token, poem))
-        .then(chartData => this.chartData = {
-            labels: chartData.labels,
-            datasets: [{
-              data: chartData.data,
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)'
-              ],
-              borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)'
-              ],
-              borderWidth: 1
-            }]
-          })
-        .catch(err => console.log(err))
+    mounted () {
+      const poem = getPoem()
+      console.log(poem)
+      let lines = poem.lines
+      lines.forEach(line => {
+        line = line.replace(/"/g, '')
       })
+      this.analyzedPoem = poem
+      getToken()
+      .then(token => analyze(token, poem))
+      .then(chartData => this.chartData = {
+        labels: chartData.labels,
+        datasets: [{
+          data: chartData.data,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)'
+          ],
+          borderWidth: 1
+        }]
+      })
+      .catch(err => console.log(err))
     },
     data () {
       return {

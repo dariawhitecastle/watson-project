@@ -20,7 +20,7 @@
         <div class="mdl-card__title">
            <h2 class="mdl-card__title-text">{{ poem.title }} </br>by: {{ poem.author }}</h2>
         </div>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" v-on:click="requestPoem(poem)">
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" v-on:click="setPoem(poem)">
           Analyze
         </button>
         <div class="mdl-card__supporting-text" v-bind:id="index"><p v-for="line in poem.lines"> {{ line }} </p></div>
@@ -31,7 +31,7 @@
 
 <script>
 import axios from 'axios'
-import {EventBus} from './event-bus.js'
+import {setPoem} from './PoemManager.js'
 export default {
   name: 'search',
   data () {
@@ -48,7 +48,9 @@ export default {
       .then(response => {
         if (response.data.status === 404) {
           this.showMessage = true
+          return
         }
+        this.showMessage = false
         let poems = response.data
         poems.forEach(poem => {
           let lines = poem.lines
@@ -59,15 +61,10 @@ export default {
         this.poems = poems.length > 5 ? poems.slice(5) : poems
       })
     },
-    requestPoem: function (poem) {
-      this.poem = poem
+    setPoem(poem) {
+      setPoem(poem)
       this.$router.replace({ name: 'Poem' })
-    }
-  },
-  beforeRouteLeave (to, from, next) {
-    console.log(this.poem)
-    EventBus.$emit('poemRequested', this.poem)
-    next()
+    },
   },
   mounted() {
     componentHandler.upgradeElement(this.$refs.inputField)

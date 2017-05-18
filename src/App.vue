@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <img src="./assets/IBM_Bluemix_logo.svg.png">
-    <transition name="fade"><keep-alive><router-view></router-view></keep-alive></transition>
+    <transition name="fade"><router-view></router-view></transition>
   </div>
 </template>
 
