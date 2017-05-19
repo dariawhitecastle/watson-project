@@ -19,6 +19,7 @@
            <h2 class="mdl-card__title-text">Poem Title<br>Poem Author</h2>
         </div>
         <div class="mdl-card__supporting-text">
+          {{ this.chartData}}
           <polar-chart :chart-data="chartData"></polar-chart>
         </div>
       </div>
@@ -27,7 +28,6 @@
 </template>
 
 <script>
-
   import {getPoem} from './PoemManager.js'
   import axios from 'axios'
   import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
@@ -61,7 +61,7 @@
       token: token,
       version_date: '2016-05-19'
     })
-    return new Promise ((res, rej) => {
+    return new Promise((resolve, reject) => {
       toneAnalyzer.tone(
         {
           text: analyzedPoem1.lines,
@@ -69,11 +69,10 @@
         },
         function (err, tone) {
           if (err) {
-            // output.innerHTML = err;
-            return rej(err)
+            return reject(err)
           }
           toneResult = tone.document_tone.tone_categories[0].tones
-          return res(createDataObject(toneResult))
+          return resolve(createDataObject(toneResult))
         }
       )
     })
@@ -86,7 +85,6 @@
     },
     mounted () {
       const poem = getPoem()
-      console.log(poem)
       let lines = poem.lines
       lines.forEach(line => {
         line = line.replace(/"/g, '')
@@ -99,11 +97,11 @@
         datasets: [{
           data: chartData.data,
           backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)'
+            'rgba(242, 64, 103, 1)',
+            'rgba(6, 146, 239, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(248, 232, 58, 1)',
+            'rgba(114, 45, 251, 1)'
           ],
           borderColor: [
             'rgba(255,99,132,1)',
@@ -121,7 +119,7 @@
       return {
         analyzedPoem: {},
         chartData: {
-          labels: {},
+          labels: ["some", "sample", "data"],
           datasets: [{
             data: {}
           }]

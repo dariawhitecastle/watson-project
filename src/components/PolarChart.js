@@ -5,6 +5,9 @@ export default PolarArea.extend({
   mixins: [reactiveProp],
   props: ['chartData'],
   mounted () {
+    // if (this._chart !== null || this._chart !== undefined) {
+    //   this._chart.destroy()
+    // }
     this.renderChart(this.ChartData, {
       rsponsive: true,
       maintainAspectRation: false
