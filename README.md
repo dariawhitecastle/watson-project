@@ -1,6 +1,15 @@
 # watson-project
 
-> Poetry translator and tone analyzer
+![Screenshot](src/assets/Landing.png)
+
+## Search
+![Screenshot](src/assets/Search.png)
+
+## Discover
+![Screenshot](src/assets/Analyze.png)
+
+## Be surprised
+![Screenshot](src/assets/Analysis.png)
 
 ## Build Setup
 
