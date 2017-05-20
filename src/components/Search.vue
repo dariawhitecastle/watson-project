@@ -10,7 +10,7 @@
     <div class="mdl-grid">
       <div ref="inputField" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--4-col mdl-cell--5-col-tablet mdl-cell--12-col-phone mdl-cell--4-offset-desktop mdl-cell--1-offset-tablet">
           <input class="mdl-textfield__input" type="text" id="search-poem" pattern="[A-Z,a-z, ]*" v-model="searchValue">
-          <label class="mdl-textfield__label" for="search-poem">Search by title or author</label>
+          <label class="mdl-textfield__label" for="search-poem">Search by author</label>
           <span class="mdl-textfield__error">Letters and spaces only</span>
       </div>
       <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" v-on:click="searchPoem()">

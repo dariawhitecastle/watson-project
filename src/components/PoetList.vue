@@ -30,4 +30,7 @@
   .poetLi {
     display: block;
   }
+  i {
+    margin:10px;
+  }
 </style>
