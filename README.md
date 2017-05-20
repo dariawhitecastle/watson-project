@@ -2,13 +2,16 @@
 
 ![Screenshot](src/assets/Landing.png)
 
-## Search
+## Search 
+Type your favorite author's name in the search bar
 ![Screenshot](src/assets/Search.png)
 
 ## Discover
+Select from a list of poems and click Analyze
 ![Screenshot](src/assets/Analyze.png)
 
 ## Be surprised
+Watch Watson analyze the tone and produce a visual chart rendering
 ![Screenshot](src/assets/Analysis.png)
 
 ## Build Setup
