@@ -16,10 +16,9 @@
       </div>
       <div class="mdl-card mdl-shadow--4dp mdl-cell--5-col mdl-cell--6-col-tablet mdl-cell--12-col-phone">
         <div class="mdl-card__title">
-           <h2 class="mdl-card__title-text">Poem Title<br>Poem Author</h2>
+           <h2 class="mdl-card__title-text">Tone Analyzer<br>by IBM Watson</h2>
         </div>
         <div class="mdl-card__supporting-text">
-          {{ this.chartData}}
           <polar-chart :chart-data="chartData"></polar-chart>
         </div>
       </div>
@@ -28,55 +27,8 @@
 </template>
 
 <script>
-  import {getPoem} from './PoemManager.js'
-  import axios from 'axios'
-  import ToneAnalyzerV3 from 'watson-developer-cloud/tone-analyzer/v3'
-  let analyzedPoem1 = {}
+  import {getPoem, getToken, createDataObject, analyze} from './PoemManager.js'
   import PolarChart from './PolarChart.js'
-
-  // required to get auth token from Watson API
-  function getToken () {
-    return axios.get('/api/token/tone_analyzer')
-    .then(response => {
-      return response.data
-    })
-  }
-  // uses analyzedPoem1 to process tone analysis. Assigns result to tone
-  let toneResult = {}
-  let chartData = {
-    labels: [],
-    data: []
-  }
-
-  function createDataObject (data) {
-      data.forEach(obj => {
-      chartData.labels.push(obj.tone_name)
-      chartData.data.push(Math.round(obj.score * 100))
-    })
-    return chartData
-  }
-
-  function analyze (token, analyzedPoem1) {
-    const toneAnalyzer = new ToneAnalyzerV3({
-      token: token,
-      version_date: '2016-05-19'
-    })
-    return new Promise((resolve, reject) => {
-      toneAnalyzer.tone(
-        {
-          text: analyzedPoem1.lines,
-          sentences: false
-        },
-        function (err, tone) {
-          if (err) {
-            return reject(err)
-          }
-          toneResult = tone.document_tone.tone_categories[0].tones
-          return resolve(createDataObject(toneResult))
-        }
-      )
-    })
-  }
 
   export default {
     name: 'poem',
@@ -119,7 +71,7 @@
       return {
         analyzedPoem: {},
         chartData: {
-          labels: ["some", "sample", "data"],
+          labels: [],
           datasets: [{
             data: {}
           }]
@@ -137,6 +89,9 @@ h1, h2 {
 
 .mdl-card {
   margin: 20px;
+}
+.mdl-card__title {
+  justify-content: space-around;
 }
 ul {
   list-style-type: none;

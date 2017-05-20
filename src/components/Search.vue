@@ -16,6 +16,10 @@
       <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" v-on:click="searchPoem()">
         Search
       </button>
+      <div v-show="showList" class="mdl-cell--4-col mdl-cell--6-col-tablet mdl-cell--12-col-phone mdl-cell--4-offset-desktop mdl-cell--1-offset-tablet">
+        <poet-list></poet-list>
+      </div>
+      </div>
       <div v-for="(poem, index) in poems" class="mdl-card mdl-shadow--4dp mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--12-col-phone mdl-cell--3-offset-desktop mdl-cell--1-offset-tablet">
         <div class="mdl-card__title">
            <h2 class="mdl-card__title-text">{{ poem.title }} </br>by: {{ poem.author }}</h2>
@@ -32,12 +36,18 @@
 <script>
 import axios from 'axios'
 import {setPoem} from './PoemManager.js'
+import PoetList from './PoetList.vue'
+
 export default {
   name: 'search',
+  components: {
+    'poet-list': PoetList
+  },
   data () {
     return {
       searchValue: '',
       showMessage: false,
+      showList: true,
       poems: [],
       message: 'Sorry, we do not have your poem at this time'
     }
@@ -51,6 +61,7 @@ export default {
           return
         }
         this.showMessage = false
+        this.showList = false
         let poems = response.data
         poems.forEach(poem => {
           let lines = poem.lines
