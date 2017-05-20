@@ -25,7 +25,7 @@ export default {
     }
   }
 }
-</script>
+</script scoped>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>

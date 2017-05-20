@@ -6,7 +6,7 @@
       <router-link to="/poem" tag="li"><a>See poem</a></router-link></li>
     </ul>
     <div class="mdl-grid">
-      <div class="mdl-card mdl-shadow--4dp mdl-cell--5-col mdl-cell--6-col-tablet mdl-cell--12-col-phone">
+      <div class="mdl-card mdl-shadow--4dp mdl-cell--5-col mdl-cell--5-col-tablet mdl-cell--12-col-phone">
         <div class="mdl-card__title">
            <h2 class="mdl-card__title-text">{{ analyzedPoem.title }}<br>{{ analyzedPoem.author }}</h2>
         </div>
@@ -14,7 +14,7 @@
         {{ line }} </p>
         </div>
       </div>
-      <div class="mdl-card mdl-shadow--4dp mdl-cell--5-col mdl-cell--6-col-tablet mdl-cell--12-col-phone">
+      <div class="mdl-card mdl-shadow--4dp mdl-cell--5-col mdl-cell--5-col-tablet mdl-cell--12-col-phone">
         <div class="mdl-card__title">
            <h2 class="mdl-card__title-text">Tone Analyzer<br>by IBM Watson</h2>
         </div>
@@ -33,7 +33,7 @@
   export default {
     name: 'poem',
     components: {
-      PolarChart
+      'polar-chart': PolarChart
     },
     mounted () {
       const poem = getPoem()
@@ -86,7 +86,9 @@
 h1, h2 {
   font-weight: normal;
 }
-
+.mdl-grid {
+  justify-content: space-around;
+}
 .mdl-card {
   margin: 20px;
 }
