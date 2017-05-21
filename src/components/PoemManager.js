@@ -13,7 +13,7 @@ export function setPoem(poem) {
 
 // required to get auth token from Watson API
 export function getToken () {
-  return axios.get('https://galvanize-cors-proxy.herokuapp.com/api/token/tone_analyzer')
+  return axios.get('/api/token/tone_analyzer')
   .then(response => {
     return response.data
   })

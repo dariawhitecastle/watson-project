@@ -12,13 +12,19 @@ const webpackConfig = require('./build/webpack.base.conf.js')
 
 const compiler = webpack(webpackConfig)
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next()
+})
+
 app.use(
   webpackDevMiddleware(compiler, {
     publicPath: '/' // Same as `output.publicPath` in most cases.
   })
 )
 
- app.use(express.static('./dist/'))
+app.use(express.static('./dist/'))
 
 // optional: load environment properties from a .env file
 dotenv.load({ silent: true })
