@@ -1,5 +1,5 @@
 # watson-project
-[Poetry tone analyzer](https://watson-tone-analyzer-e9efd.firebaseapp.com/#/)
+[Poetry tone analyzer](https://watson-heroku.herokuapp.com/#/)
 ![Screenshot](src/assets/Landing.png)
 
 ## Search 
